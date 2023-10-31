@@ -21,24 +21,23 @@ class Todolist:
         print("===============================================")
 
     def __create_file(self):
-        file = open(file=self.file_addr, mode="w")
-        file.writelines("{}")
-        file.close()
+        with open(file=self.file_addr, mode="w") as file:
+            file.writelines("{}")
 
     def save_todo_file(self):
-        file = open(file=self.file_addr, mode="w")
-        for_file = json.dumps(self.todo, indent=4)
-        file.write(for_file)
-        file.close()
+        with open(file=self.file_addr, mode="w") as file:
+            file.write(json.dumps(self.todo, indent=4))
 
     def read_todo_file(self):
+        file = None
         try:
             file = open(file=self.file_addr, mode="r+")
         except FileNotFoundError:
             self.__create_file()
             file = open(file=self.file_addr, mode="r+")
-        self.todo = json.loads(file.read())
-        file.close()
+        finally:
+            self.todo = json.load(file)
+            file.close()
 
     def run(self):
         self.read_todo_file()
