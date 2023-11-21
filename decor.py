@@ -4,10 +4,10 @@ from contextlib import redirect_stdout
 
 
 def add_border(function):
-    def inside_f(*args, **kwargs):
+    def inside_f(*args):
         result = io.StringIO()
         with redirect_stdout(result):
-            function(*args, **kwargs)
+            function(*args)
         max_line_length = 0
         result_list = result.getvalue().split("\n")
         for line in result_list:
